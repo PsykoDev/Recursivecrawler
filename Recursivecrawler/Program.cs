@@ -9,9 +9,8 @@ namespace Recursivecrawler
     internal class Program
     {
         static HttpClient _httpclient = new();
-        static Regex rx = new Regex(@".*\.(jpg|png|gif)?$");
+        static Regex rx = new Regex(@".*\.(jpg|png|gif|jpeg|avif|webp)?$");
         static Mutex s = new();
-        static List<string> linksToVisit = new();
 
         static ConcurrentQueue<string> cq = new ConcurrentQueue<string>();
 
@@ -51,18 +50,16 @@ namespace Recursivecrawler
                         var urls = document.DocumentNode.Descendants("img").Select(e => e.GetAttributeValue("src", null)).Where(s => !String.IsNullOrEmpty(s));
                         foreach (var img in urls)
                         {
-                            Console.WriteLine(img);
+                            if(rx.IsMatch(img))
+                                Console.WriteLine(img);
                         }
                         ParseLinksAsync(dequeued);
 
                     }
                 }
-
-
             };
 
-            Parallel.Invoke(action, action, action, action);
-
+            Parallel.Invoke(action, action, action, action, action, action, action, action, action, action, action, action, action, action, action, action);
             Console.Read();
         }
 
